@@ -2,6 +2,18 @@ export function isUndefined(v) {
     return typeof v === 'undefined';
 }
 
+export function isString(v) {
+    return typeof v === 'string';
+}
+
+export function isBoolean(v) {
+    return v === true || v === false;
+}
+
+export function isNumber(v) {
+    return typeof v === 'number';
+}
+
 export function isFunction(v) {
     return typeof v === 'function';
 }
@@ -12,13 +24,13 @@ export function identity(_) {
     return _;
 }
 
-export function createUniqueIdentifier(file) {
-    var filepath =
+export function createId(file) {
+    let filepath =
         file.webkitRelativePath ||
         file.relativePath ||
         file.fileName ||
         file.name;
-    var size = file.size;
+    let size = file.size;
 
     return size + '-' + filepath.replace(/[^0-9a-zA-Z_-]/gim, '');
 }
@@ -30,9 +42,8 @@ export function formatSize(size) {
         return (size / 1024.0).toFixed(0) + ' KB';
     } else if (size < 1024 * 1024 * 1024) {
         return (size / 1024.0 / 1024.0).toFixed(1) + ' MB';
-    } else {
-        return (size / 1024.0 / 1024.0 / 1024.0).toFixed(1) + ' GB';
     }
+    return (size / 1024.0 / 1024.0 / 1024.0).toFixed(1) + ' GB';
 }
 
 export function each(objOrArray, callback) {
@@ -67,6 +78,10 @@ export function on(el, event, handler) {
             el.attachEvent('on' + event, handler);
         }
     }
+}
+
+export function getAttr(el, name) {
+    return el.getAttribute(name);
 }
 
 export function attr(el, name, value) {
@@ -104,8 +119,8 @@ export function contains(list, target) {
 }
 
 export function createUrl(url, params) {
-    var separator = url.indexOf('?') < 0 ? '?' : '&';
-    var joinedParams = params.join('&');
+    let separator = url.indexOf('?') < 0 ? '?' : '&';
+    let joinedParams = params.join('&');
 
     if (joinedParams) {
         url = url + separator + joinedParams;

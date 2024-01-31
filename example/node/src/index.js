@@ -51,9 +51,7 @@ router.post('/precheck', async function (ctx, next) {
 
     const {fileHash, chunkNumber} = query;
 
-    const isExists = fse.existsSync(
-        path.resolve(tempDir, fileHash, chunkNumber)
-    );
+    const isExists = fse.existsSync(path.resolve(tempDir, fileHash, chunkNumber));
 
     ctx.body = {
         code: isExists ? 1 : 0,
@@ -134,7 +132,7 @@ app.use(
         formidable: {
             maxFileSize: 2 * 1024 * 1024 * 1024, // 设置上传文件大小最大限制，默认2G
         },
-    })
+    }),
 );
 
 app.use(router.routes());

@@ -7,7 +7,6 @@
         "start": "yma dev",
         "build": "yma build",
         "lint": "yma lint",
-        "prepare": "husky install",
         "sh": "sh ./script/build.sh",
         "docker": "sh ./script/docker.sh"
     },
@@ -20,9 +19,7 @@
         "vue-template-compiler": "2.6.11",
         "vuex": "4.1.0",
         "worker-loader": "^3.0.8",
-        "yma-cli": "1.0.25"
+        "yma-cli": "1.0.26"
     },
-    "devDependencies": {
-        "husky": "8.0.0"
-    }
+    "devDependencies": {}
 }

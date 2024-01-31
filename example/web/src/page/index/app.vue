@@ -1,83 +1,31 @@
 <template>
     <div>
-        <button @click="handleClick">点我</button>
+        <yma-upload
+            :upload-options="{
+                url: 'http://127.0.0.1:3000/upload',
+                chunkSize: 10 * 1024,
+                mergeUrl: 'http://127.0.0.1:3000/merge',
+                precheckChunk: false,
+                precheckChunkUrl: 'http://127.0.0.1:3000/precheck',
+                autoMerge: true,
+            }"
+        />
 
-        <input class="yma-upload__input" ref="input" id="upload" type="file" />
-
-        <div ref="upload" class="upload"></div>
-
-        <div v-for="(file, id) in files">
-            <div :key="id">
-                {{ file.fileName }}
-                progress:
-                {{
-                    file.isCompleted
-                        ? 100
-                        : Math.floor(file.progress() * 100 || 0)
-                }}
-            </div>
-        </div>
+        <yma-download
+            url="http://img.zcool.cn/community/037b68f58cf359ba801219c77cdb30d.jpg"
+            filename="test.jpg"
+        />
     </div>
 </template>
 
 <script>
-import Uploader from '../../../../../src';
-
 export default {
+    components: {},
     data() {
-        const uploader = new Uploader({
-            url: 'http://127.0.0.1:3000/upload',
-            minFileSize: undefined,
-            testChunks: false,
-            chunkSize: 10 * 1024,
-            mergeUrl: 'http://127.0.0.1:3000/merge',
-            precheckChunk: false,
-            precheckChunkUrl: 'http://127.0.0.1:3000/precheck',
-        });
-
-        return {
-            uploader: Object.freeze(uploader),
-            files: [],
-        };
+        return {};
     },
-    mounted() {
-        const that = this;
-
-        that.uploader.bindInput(this.$refs.upload);
-
-        that.uploader.on('file-added', function (file) {
-            that.files.push(file);
-
-            file.upload();
-        });
-
-        that.uploader.on('file-chunk-precheck', function (chunk) {
-            console.log(chunk);
-        });
-
-        that.uploader.on('file-chunk-prechecked', function (chunk, status) {
-            console.log(status);
-        });
-
-        that.uploader.on('file-success', function (file) {
-            file.merge();
-        });
-
-        that.uploader.on('file-merged', function (file) {
-            console.log(file);
-        });
-    },
-    methods: {
-        handleClick() {
-            this.$refs.input.click();
-        },
-        handleFileChange(e) {
-            var files = e.target.files;
-            this.uploader.addFiles(Object.values(files));
-            // this.uploader.addFile(file);
-            this.uploader.upload();
-        },
-    },
+    mounted() {},
+    methods: {},
 };
 </script>
 

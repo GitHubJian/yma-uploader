@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
+    stroke-width="1.5">
+    <desc>合并_合并居中_合并表格</desc>
+    <g id="group-0" stroke="#333333" fill="#333333">
+        <path
+            d="M1.75 6V3.25C1.75 2.42157 2.42157 1.75 3.25 1.75H7M1.75 10V12.75C1.75 13.5784 2.42157 14.25 3.25 14.25H7M9 1.75H12.75C13.5784 1.75 14.25 2.42157 14.25 3.25V6M14.25 10V12.75C14.25 13.5784 13.5784 14.25 12.75 14.25H9"
+            fill="none" vector-effect="non-scaling-stroke" />
+    </g>
+    <g id="group-1" stroke="#418F1F" fill="#418F1F">
+        <path
+            d="M1.75 8H6.25M6.25 8L4.75 6.75M6.25 8L4.75 9.25M14.25 8H9.75M9.75 8L11.25 6.75M9.75 8L11.25 9.25"
+            stroke-linecap="round" stroke-linejoin="round" fill="none"
+            vector-effect="non-scaling-stroke" />
+    </g>
+</svg>
