@@ -1,16 +1,33 @@
 <template>
     <span class="yma-link" @click="handleClick">
         <span class="yma-link__content">
-            <span class="yma-link__inner"> {{ text }}</span>
+            <span class="yma-link__inner">
+                <span class="yma-link__icon">
+                    <yma-icon name="transmit_download" />
+                </span>
+
+                <span class="yma-link__text">
+                    <template v-if="$slots.default">
+                        <slot></slot>
+                    </template>
+                    <template v-else>
+                        {{ text }}
+                    </template>
+                </span>
+            </span>
         </span>
     </span>
 </template>
 
 <script>
 import {Downloader} from '../../src';
+import YmaIcon from '../icon';
 
 export default {
     name: 'YmaDownload',
+    components: {
+        YmaIcon,
+    },
     props: {
         text: {
             type: String,
@@ -48,6 +65,7 @@ export default {
     @include e(inner) {
         position: relative;
         line-height: 22px;
+        padding: 0 2px;
     }
 
     @include pseudo(hover) {
@@ -62,6 +80,18 @@ export default {
                 border-bottom: 1px solid rgba(30, 95, 199, 1);
             }
         }
+    }
+
+    @include e(icon) {
+        width: 14px;
+        height: 14px;
+        font-size: 0;
+        margin-right: 8px;
+    }
+
+    @include e((icon, text)) {
+        display: inline-block;
+        vertical-align: middle;
     }
 
     position: relative;
