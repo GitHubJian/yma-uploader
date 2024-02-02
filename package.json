@@ -1,6 +1,6 @@
 {
     "name": "yma-uploader",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "",
     "main": "index.js",
     "directories": {
@@ -9,6 +9,10 @@
     "scripts": {
         "lint": "yma lint"
     },
+    "files": [
+        "src",
+        "vue"
+    ],
     "keywords": [],
     "author": "",
     "license": "ISC",
