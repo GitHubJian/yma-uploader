@@ -1,13 +1,16 @@
 {
     "name": "yma-udfiler",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "YMA 文件上传 & 下载",
     "main": "./src/index.js",
     "directories": {
         "example": "example"
     },
     "scripts": {},
-    "files": ["src", "vue"],
+    "files": [
+        "src",
+        "vue"
+    ],
     "keywords": [],
     "author": "",
     "license": "ISC",
