@@ -7,10 +7,7 @@
         "example": "example"
     },
     "scripts": {},
-    "files": [
-        "src",
-        "vue"
-    ],
+    "files": ["src", "vue"],
     "keywords": [],
     "author": "",
     "license": "ISC",

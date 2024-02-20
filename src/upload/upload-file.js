@@ -1,17 +1,9 @@
-import {
-    isFunction,
-    nextTick,
-    each,
-    isUndefined,
-    on,
-    createUrl,
-    formatSize,
-} from '../util';
+import {isFunction, nextTick, each, isUndefined, on, createUrl, formatSize} from '../util';
 import UploadChunk from './upload-chunk';
 
 export const MERGED_STATUS = {
-    merging: 1,
-    merged: 0,
+    merging: '1',
+    merged: '0',
 };
 
 export const UPLOAD_FILE_STATUS = {
@@ -33,8 +25,7 @@ class UploadFile {
         this.file = file;
         this.fileName = file.fileName || file.name;
         this.fileSize = file.size;
-        this.filePath =
-            file.relativePath || file.webkitRelativePath || this.fileName;
+        this.filePath = file.relativePath || file.webkitRelativePath || this.fileName;
         this.id = id;
 
         this.fileType = file.type;
@@ -81,13 +72,8 @@ class UploadFile {
         that.chunks = [];
         that._prevProgress = 0;
 
-        let round = that.uploader.options.forceChunkSize
-            ? Math.ceil
-            : Math.floor;
-        let maxOffset = Math.max(
-            round(that.fileSize / that.uploader.options.chunkSize),
-            1
-        );
+        let round = that.uploader.options.forceChunkSize ? Math.ceil : Math.floor;
+        let maxOffset = Math.max(round(that.fileSize / that.uploader.options.chunkSize), 1);
 
         function chunkEvent(event, message) {
             switch (event) {
@@ -126,11 +112,7 @@ class UploadFile {
 
                         that.uploader.emit('file-merge-request', that);
 
-                        that.uploader.emit(
-                            'merge-request',
-                            that.uploader,
-                            that
-                        );
+                        that.uploader.emit('merge-request', that.uploader, that);
                     }
 
                     // 整体上传进度
@@ -146,9 +128,7 @@ class UploadFile {
 
         for (let offset = 0; offset < maxOffset; offset++) {
             (function (offset) {
-                that.chunks.push(
-                    new UploadChunk(that.uploader, that, offset, chunkEvent)
-                );
+                that.chunks.push(new UploadChunk(that.uploader, that, offset, chunkEvent));
             })(offset);
         }
 
@@ -159,11 +139,7 @@ class UploadFile {
 
             that.uploader.emit('file-chunked', that);
 
-            that.uploader.emit(
-                'chunked',
-                that.uploader,
-                that.uploader.getChunked()
-            );
+            that.uploader.emit('chunked', that.uploader, that.uploader.getChunked());
         }, 0);
     }
 
@@ -305,24 +281,21 @@ class UploadFile {
     // 待当前 Chunk 上传结束后，中止上传
     pause(pause) {
         const that = this;
-        if (
-            [
-                UPLOAD_FILE_STATUS.uploaded,
-                UPLOAD_FILE_STATUS.completed,
-            ].includes(that._status)
-        ) {
+        if ([UPLOAD_FILE_STATUS.uploaded, UPLOAD_FILE_STATUS.completed].includes(that._status)) {
             return;
         }
 
         if (isUndefined(pause)) {
-            that._pause = that._pause ? false : true;
-        } else {
+            that._pause = !that._pause;
+        }
+        else {
             that._pause = pause;
         }
 
         if (that._pause) {
             that._status = UPLOAD_FILE_STATUS.pause;
-        } else {
+        }
+        else {
             that._status = UPLOAD_FILE_STATUS.uploading;
         }
 
@@ -338,7 +311,8 @@ class UploadFile {
             // that._status = UPLOAD_FILE_STATUS.completed;
             // that.uploader.emit('file-completed', that);
             // that.uploader.emit('completed', that.uploader, that);
-        } else {
+        }
+        else {
             this._upload();
         }
     }
@@ -367,7 +341,8 @@ class UploadFile {
                     return false;
                 }
             });
-        } else {
+        }
+        else {
             that._fileBeforeUpload = false;
         }
 
@@ -395,9 +370,9 @@ class UploadFile {
             }
 
             return false;
-        } else {
-            return that._upload(true);
         }
+        return that._upload(true);
+
     }
 
     getStatus() {
@@ -419,36 +394,39 @@ class UploadFile {
         const xhr = new XMLHttpRequest();
 
         const doneHandler = function () {
+            debugger;
             if (xhr.status === 200 || xhr.status === 201) {
-                const statusJson = xhr.responseText;
+                const responseJson = xhr.responseText;
 
-                let status;
+                let res;
                 try {
-                    status = JSON.parse(statusJson);
-                } catch (err) {
+                    res = JSON.parse(responseJson);
+                }
+                catch (err) {
                     throw err;
                 }
 
-                if (status.code === MERGED_STATUS.merging) {
+                if (res.code === MERGED_STATUS.merging) {
                     // 未 merge 完成
-                    that.uploader.emit('file-merge-retry', that, status);
+                    that.uploader.emit('file-merge-retry', that, res);
 
                     that.retries++;
 
-                    const retryInterval =
-                        that.uploader.options.chunkRetryInterval;
+                    const retryInterval = that.uploader.options.chunkRetryInterval;
                     if (!isUndefined(retryInterval)) {
                         that.pendingRetry = true;
 
                         nextTick(that.merge, retryInterval);
-                    } else {
+                    }
+                    else {
                         that.merge();
                     }
-                } else if (status.code === MERGED_STATUS.merged) {
+                }
+                else if (res.code === MERGED_STATUS.merged) {
                     // 已 merge 完成
                     that._status = UPLOAD_FILE_STATUS.completed;
 
-                    that.uploader.emit('file-completed', that, status);
+                    that.uploader.emit('file-completed', that, res);
 
                     that.uploader.emit('completed', that.uploader, that);
                 }
@@ -483,11 +461,10 @@ class UploadFile {
         });
 
         let params = [];
-
+        let data = {};
         each(query, function (k, v) {
-            params.push(
-                [encodeURIComponent(k), encodeURIComponent(v)].join('=')
-            );
+            data[k] = v;
+            params.push([encodeURIComponent(k), encodeURIComponent(v)].join('='));
         });
 
         const url = createUrl(that.uploader.options.mergeUrl, params);
@@ -508,7 +485,7 @@ class UploadFile {
 
         xhr.setRequestHeader('Content-Type', 'application/json');
 
-        xhr.send();
+        xhr.send(JSON.stringify(data));
     }
 }
 

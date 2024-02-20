@@ -1,5 +1,11 @@
 <template>
-    <span class="yma-link" @click="handleClick">
+    <span
+        class="yma-link"
+        :class="{
+            'is-disabled': disabled,
+        }"
+        @click="handleClick"
+    >
         <span class="yma-link__content">
             <span class="yma-link__inner">
                 <span class="yma-link__icon">
@@ -41,13 +47,23 @@ export default {
             type: String,
             required: true,
         },
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+        options: {
+            type: Object,
+            default: () => {},
+        },
     },
     data() {
         return {};
     },
     methods: {
         handleClick() {
-            Downloader.saveAs(this.url, this.filename);
+            if (!this.disabled) {
+                Downloader.saveAs(this.url, this.filename, this.options);
+            }
         },
     },
 };
@@ -57,6 +73,11 @@ export default {
 @import 'yma-csskit/bem.scss';
 
 @include b(link) {
+    @include when(disabled) {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
     @include e(content) {
         display: flex;
         align-items: center;
@@ -68,7 +89,7 @@ export default {
         padding: 0 2px;
     }
 
-    @include pseudo(hover) {
+    &:not(.is-disabled):hover {
         @include e(inner) {
             @include pseudo(after) {
                 content: '';

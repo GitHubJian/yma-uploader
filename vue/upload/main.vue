@@ -49,6 +49,7 @@
                                     status == UPLOAD_STATUS.uploaded,
                             }"
                             @click="handleUploadAllClick()"
+                            title="开始"
                         >
                             <yma-icon name="play_two" />
                         </span>
@@ -58,6 +59,7 @@
                             v-if="status === UPLOAD_STATUS.uploading"
                             class="yma-upload__icon"
                             @click="handlePauseAllClick()"
+                            title="暂停"
                         >
                             <yma-icon name="pause_normal" />
                         </span>
@@ -67,6 +69,7 @@
                             v-if="status === UPLOAD_STATUS.uploaded"
                             class="yma-upload__icon"
                             @click="handleMergeAllClick()"
+                            title="合并"
                         >
                             <yma-icon name="merge" />
                         </span>
@@ -75,6 +78,7 @@
                         <span
                             v-if="status === UPLOAD_STATUS.merging"
                             class="yma-upload__icon yma-upload__icon--disabled"
+                            title="合并中"
                         >
                             <yma-icon name="doc_merge" />
                         </span>
@@ -83,6 +87,7 @@
                         <span
                             v-if="status === UPLOAD_STATUS.completed"
                             class="yma-upload__icon yma-upload__icon--normal"
+                            title="完成"
                         >
                             <yma-icon name="success_normal" />
                         </span>
@@ -90,6 +95,7 @@
                         <span
                             class="yma-upload__icon"
                             @click="handleRemoveAllClick"
+                            title="移除"
                         >
                             <yma-icon name="trash_can" />
                         </span>
@@ -249,11 +255,26 @@ export default {
             type: Object,
             default: () => {},
         },
+        customQuery: {
+            type: Object,
+            default: () => {},
+        },
+        tokenInvalidCodes: {
+            type: Array,
+            default: () => ['404'],
+        },
+        tokenInvalidCallback: {
+            type: Function,
+            default: () => {},
+        },
     },
     data() {
         const that = this;
 
-        const uploader = new Uploader(this.uploadOptions);
+        const uploader = new Uploader({
+            ...this.uploadOptions,
+            query: this.customQuery,
+        });
 
         uploader.on('filesize-min-error', function (file, count) {
             console.log(file);
@@ -329,6 +350,15 @@ export default {
             that.update(uploadFile, {
                 progress: Math.floor(uploadFile.progress() * 100 || 0),
             });
+        });
+
+        uploader.on('file-error', function (uploadFile, messageJson) {
+            if (messageJson) {
+                let message = JSON.parse(messageJson);
+                if (that.tokenInvalidCodes.indexOf(message.code) > -1) {
+                    that.tokenInvalidCallback(message.code);
+                }
+            }
         });
 
         uploader.on('file-uploaded', function (uploadFile) {
@@ -452,6 +482,14 @@ export default {
             if (idx > -1) {
                 that.uploadFilesList.splice(idx, 1);
             }
+        },
+    },
+    watch: {
+        uploadOptions(newVal) {
+            this.uploader.config(newVal);
+        },
+        customQuery(newVal) {
+            this.uploader.updateQuery(newVal);
         },
     },
 };
@@ -596,6 +634,7 @@ export default {
         display: flex;
         gap: 8px;
         line-height: 32px;
+        cursor: default;
 
         & + & {
             margin-top: 12px;
@@ -617,6 +656,7 @@ export default {
         font-size: 14px;
         text-overflow: ellipsis;
         white-space: nowrap;
+        text-align: left;
     }
 
     @include e(file-size) {

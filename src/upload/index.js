@@ -38,9 +38,11 @@ function processItem(item, path, items, cb) {
             items.push(file);
             cb();
         });
-    } else if (item.isDirectory) {
+    }
+    else if (item.isDirectory) {
         entry = item;
-    } else if (item instanceof File) {
+    }
+    else if (item instanceof File) {
         items.push(item);
     }
 
@@ -106,9 +108,7 @@ function defaults() {
         query: {}, // 自定义查询参数
 
         method: 'multipart',
-        testMethod: 'GET', // 测试上传
         url: '/', // 上传地址
-        testUrl: null,
 
         xhrTimeout: 0, // XHR 上传超时时间
         withCredentials: false, // XHR 是否允许跨站点请求伪造
@@ -147,6 +147,8 @@ function defaults() {
 
         precheckChunk: false, // 开启对 CHUNK 预检上传
         precheckChunkUrl: '/precheck', // Chunk 上传之前进行检查
+
+        query: {}, // 自定义上传参数
     };
 }
 
@@ -166,14 +168,11 @@ class Uploader extends EE {
         super();
 
         const that = this;
-        this.support =
-            typeof File !== 'undefined' &&
-            typeof Blob !== 'undefined' &&
-            typeof FileList !== 'undefined' &&
-            (!!Blob.prototype.webkitSlice ||
-                !!Blob.prototype.mozSlice ||
-                !!Blob.prototype.slice ||
-                false);
+        this.support
+            = typeof File !== 'undefined'
+            && typeof Blob !== 'undefined'
+            && typeof FileList !== 'undefined'
+            && (!!Blob.prototype.webkitSlice || !!Blob.prototype.mozSlice || !!Blob.prototype.slice || false);
 
         if (!this.support) {
             throw new Error('当前浏览器不支持 Upload 插件');
@@ -182,8 +181,8 @@ class Uploader extends EE {
         this.options = Object.assign({}, defaults(), options);
 
         if (
-            !isNumber(this.options.minFileSize) ||
-            (isNumber(this.options.minFileSize) && this.options.minFileSize < 1)
+            !isNumber(this.options.minFileSize)
+            || (isNumber(this.options.minFileSize) && this.options.minFileSize < 1)
         ) {
             throw 'Uploader options.minFileSize 必须是一个大于 0 的数值';
         }
@@ -201,6 +200,14 @@ class Uploader extends EE {
         }
 
         this.bindEvent();
+    }
+
+    config(options) {
+        this.options = Object.assign({}, this.options || defaults(), options);
+    }
+
+    updateQuery(query) {
+        this.options.query = query;
     }
 
     bindEvent() {
@@ -374,7 +381,8 @@ class Uploader extends EE {
 
         if (that._pause) {
             that._status = UPLOAD_STATUS.ready;
-        } else {
+        }
+        else {
             that._status = UPLOAD_STATUS.pause;
         }
 
@@ -434,18 +442,12 @@ class Uploader extends EE {
 
         let errorCount = 0;
 
-        if (
-            !isUndefined(that.options.maxFiles) &&
-            that.options.maxFiles < fileList.length + that.uploadFiles.length
-        ) {
+        if (!isUndefined(that.options.maxFiles) && that.options.maxFiles < fileList.length + that.uploadFiles.length) {
             // 如果是单文件上传，文件已经被添加，只需进行文件替换即可
-            if (
-                that.options.maxFiles === 1 &&
-                that.uploadFiles.length === 1 &&
-                fileList.length === 1
-            ) {
+            if (that.options.maxFiles === 1 && that.uploadFiles.length === 1 && fileList.length === 1) {
                 that.removeFile(that.uploadFiles[0]);
-            } else {
+            }
+            else {
                 that.options.maxFilesErrorCallback(fileList, errorCount++);
 
                 that.emit('max-files-error', fileList, errorCount++);
@@ -477,26 +479,18 @@ class Uploader extends EE {
             if (that.options.fileTypes.length > 0) {
                 let fileTypeFound = false;
                 for (let key in that.options.fileTypes) {
-                    that.options.fileTypes[key] = that.fileTypes[key]
-                        .replace(/\s/g, '')
-                        .toLowerCase();
+                    that.options.fileTypes[key] = that.options.fileTypes[key].replace(/\s/g, '').toLowerCase();
 
-                    let extension =
-                        (that.options.fileTypes[index].match(/^[^.][^/]+$/)
-                            ? '.'
-                            : '') + that.options.fileTypes[index];
+                    let extension
+                        = (that.options.fileTypes[key].match(/^[^.][^/]+$/) ? '.' : '') + that.options.fileTypes[key];
 
                     if (
-                        fileName.substr(-1 * extension.length).toLowerCase() ===
-                            extension ||
-                        (extension.indexOf('/') !== -1 &&
-                            ((extension.indexOf('*') !== -1 &&
-                                fileType.substr(0, extension.indexOf('*')) ===
-                                    extension.substr(
-                                        0,
-                                        extension.indexOf('*')
-                                    )) ||
-                                fileType === extension))
+                        fileName.substr(-1 * extension.length).toLowerCase() === extension
+                        || (extension.indexOf('/') !== -1
+                            && ((extension.indexOf('*') !== -1
+                                && fileType.substr(0, extension.indexOf('*'))
+                                    === extension.substr(0, extension.indexOf('*')))
+                                || fileType === extension))
                     ) {
                         fileTypeFound = true;
                         break;
@@ -517,10 +511,7 @@ class Uploader extends EE {
                 return true;
             }
 
-            if (
-                !isUndefined(that.options.maxFileSize) &&
-                file.size > that.options.maxFileSize
-            ) {
+            if (!isUndefined(that.options.maxFileSize) && file.size > that.options.maxFileSize) {
                 that.options.maxFileSizeErrorCallback(file, errorCount++);
 
                 that.emit('filesize-max-error', file, errorCount++);
@@ -546,10 +537,7 @@ class Uploader extends EE {
                         that.uploadFiles.push(uploadFile);
                         files.push(uploadFile);
 
-                        uploadFile.container =
-                            typeof event !== 'undefined'
-                                ? event.srcElement
-                                : null;
+                        uploadFile.container = typeof event !== 'undefined' ? event.srcElement : null;
 
                         uploadFile._status = UPLOAD_FILE_STATUS.ready;
                         // 单个文件添加完成
@@ -557,7 +545,8 @@ class Uploader extends EE {
 
                         decreaseReamining();
                     });
-                } else {
+                }
+                else {
                     filesSkipped.push(file);
 
                     decreaseReamining();
@@ -707,7 +696,8 @@ class Uploader extends EE {
             dt.effectAllowed = 'copy';
 
             addClass(e.currentTarget, DRAG_CLASSNAME);
-        } else {
+        }
+        else {
             // not work on IE/Edge....
             dt.dropEffect = 'none';
             dt.effectAllowed = 'none';
@@ -729,7 +719,8 @@ class Uploader extends EE {
 
         if (e.dataTransfer && e.dataTransfer.items) {
             this._loadFiles(e.dataTransfer.items, e);
-        } else if (e.dataTransfer && e.dataTransfer.files) {
+        }
+        else if (e.dataTransfer && e.dataTransfer.files) {
             this._loadFiles(e.dataTransfer.files, e);
         }
     }
@@ -767,7 +758,8 @@ class Uploader extends EE {
         let inputEl;
         if (inputOrDiv.tagName === 'INPUT' && inputOrDiv.type === 'file') {
             inputEl = inputOrDiv;
-        } else {
+        }
+        else {
             inputEl = document.createElement('input');
             attr(inputEl, 'type', 'file');
             inputEl.style.display = 'none';
@@ -781,16 +773,8 @@ class Uploader extends EE {
         }
 
         let maxFiles = that.options.maxFiles;
-        attr(
-            inputEl,
-            'multiple',
-            isUndefined(maxFiles) || maxFiles != 1 ? 'multiple' : undefined
-        );
-        attr(
-            inputEl,
-            'webkitdirectory',
-            isDirectory ? 'webkitdirectory' : undefined
-        );
+        attr(inputEl, 'multiple', isUndefined(maxFiles) || maxFiles != 1 ? 'multiple' : undefined);
+        attr(inputEl, 'webkitdirectory', isDirectory ? 'webkitdirectory' : undefined);
 
         let fileTypes = that.options.fileTypes;
         attr(
@@ -799,15 +783,15 @@ class Uploader extends EE {
 
             isUndefined(fileTypes) || fileTypes.length >= 1
                 ? fileTypes
-                      .map(function (e) {
-                          e = e.replace(/\s/g, '').toLowerCase();
-                          if (e.match(/^[^.][^/]+$/)) {
-                              e = '.' + e;
-                          }
+                    .map(function (e) {
+                        e = e.replace(/\s/g, '').toLowerCase();
+                        if (e.match(/^[^.][^/]+$/)) {
+                            e = '.' + e;
+                        }
 
-                          return e;
-                      })
-                      .join(',')
+                        return e;
+                    })
+                    .join(',')
                 : undefined
         );
 

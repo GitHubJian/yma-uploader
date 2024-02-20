@@ -64,7 +64,8 @@ router.post('/upload', async function (ctx, next) {
 
     if (!file) {
         next();
-    } else {
+    }
+    else {
         const query = ctx.request.query;
 
         await write(file, query);
@@ -99,7 +100,8 @@ router.post('/merge', async function (ctx, next) {
             reader.on('end', function () {
                 if (idx < totalChunks) {
                     helper(idx + 1, cb);
-                } else {
+                }
+                else {
                     cb();
                 }
             });
@@ -132,7 +134,7 @@ app.use(
         formidable: {
             maxFileSize: 2 * 1024 * 1024 * 1024, // 设置上传文件大小最大限制，默认2G
         },
-    }),
+    })
 );
 
 app.use(router.routes());
