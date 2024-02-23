@@ -58,7 +58,6 @@ class Downloader {
         }
 
         on(xhr, 'load', function () {
-            debugger;
             that.saveAs(xhr.response, name, options);
         });
 

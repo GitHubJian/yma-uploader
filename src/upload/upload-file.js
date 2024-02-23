@@ -394,7 +394,6 @@ class UploadFile {
         const xhr = new XMLHttpRequest();
 
         const doneHandler = function () {
-            debugger;
             if (xhr.status === 200 || xhr.status === 201) {
                 const responseJson = xhr.responseText;
 
