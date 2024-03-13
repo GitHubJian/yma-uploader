@@ -1734,11 +1734,6 @@
   optionalDependencies:
     prettier "^1.18.2 || ^2.0.0"
 
-"@vue/devtools-api@^6.0.0-beta.11":
-  version "6.6.1"
-  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.6.1.tgz#7c14346383751d9f6ad4bea0963245b30220ef83"
-  integrity sha512-LgPscpE3Vs0x96PzSSB4IGVSZXZBZHpfxs+ZA1d+VEPwHdOXowy/Y2CsvCAIFrf+ssVU1pD1jidj505EpUnfbA==
-
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"
@@ -2761,18 +2756,6 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha512-XgZ0pFcakEUlbwQEVNg3+QAis1FyTL3Qel9FYy8pSkQqoG3PNoT0bOCQtOXcOkur21r2Eq2kI+IE+gsmAEVlYw==
 
-copy-webpack-plugin@11.0.0:
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/copy-webpack-plugin/-/copy-webpack-plugin-11.0.0.tgz#96d4dbdb5f73d02dd72d0528d1958721ab72e04a"
-  integrity sha512-fX2MWpamkW0hZxMEg0+mYnA40LTosOSa5TqZ9GYIBzyJa9C3QUaMPSE2xAi/buNr8u89SfD9wHSQVBzrRa/SOQ==
-  dependencies:
-    fast-glob "^3.2.11"
-    glob-parent "^6.0.1"
-    globby "^13.1.1"
-    normalize-path "^3.0.0"
-    schema-utils "^4.0.0"
-    serialize-javascript "^6.0.0"
-
 core-js-compat@^3.20.2, core-js-compat@^3.21.0:
   version "3.36.0"
   resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.36.0.tgz#087679119bc2fdbdefad0d45d8e5d307d45ba190"
@@ -2954,11 +2937,6 @@ csso@^4.2.0:
   integrity sha512-wvlcdIbf6pwKEk7vHj8/Bkc0B4ylXZruLvOgs9doS5eOsOpuodOV2zJChSpkp+pRpYQLQMeF04nr3Z68Sta9jA==
   dependencies:
     css-tree "^1.1.2"
-
-de-indent@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/de-indent/-/de-indent-1.0.2.tgz#b2038e846dc33baa5796128d0804b455b8c1e21d"
-  integrity sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9:
   version "2.6.9"
@@ -3793,7 +3771,7 @@ fast-diff@^1.1.2:
   resolved "https://registry.yarnpkg.com/fast-diff/-/fast-diff-1.3.0.tgz#ece407fa550a64d638536cd727e129c61616e0f0"
   integrity sha512-VxPP4NqbUjj6MaAOafWeUn2cXWLcCtljklUtZf0Ind4XQ+QPtmA0b18zZy0jIQx+ExRVCR/ZQpBmik5lXshNsw==
 
-fast-glob@^3.2.11, fast-glob@^3.2.4, fast-glob@^3.2.9, fast-glob@^3.3.0:
+fast-glob@^3.2.4, fast-glob@^3.2.9:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.3.2.tgz#a904501e57cfdd2ffcded45e99a54fef55e46129"
   integrity sha512-oX2ruAFQwf/Orj8m737Y5adxDQO0LAB7/S5MnxCdTNDd4p6BsyIVsv9JQsATbTSq8KHRpLwIHbVlUNatxd+1Ow==
@@ -4151,17 +4129,6 @@ globby@^11.0.1, globby@^11.1.0:
     merge2 "^1.4.1"
     slash "^3.0.0"
 
-globby@^13.1.1:
-  version "13.2.2"
-  resolved "https://registry.yarnpkg.com/globby/-/globby-13.2.2.tgz#63b90b1bf68619c2135475cbd4e71e66aa090592"
-  integrity sha512-Y1zNGV+pzQdh7H39l9zgB4PJqjRNqydvdYCDG4HFXM4XuvSaQQlEc91IU1yALL8gUTDomgBAfz3XJdmUS+oo0w==
-  dependencies:
-    dir-glob "^3.0.1"
-    fast-glob "^3.3.0"
-    ignore "^5.2.4"
-    merge2 "^1.4.1"
-    slash "^4.0.0"
-
 globjoin@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/globjoin/-/globjoin-0.1.4.tgz#2f4494ac8919e3767c5cbb691e9f463324285d43"
@@ -4302,7 +4269,7 @@ hasown@^2.0.0, hasown@^2.0.1:
   dependencies:
     function-bind "^1.1.2"
 
-he@^1.1.0, he@^1.1.1, he@^1.2.0:
+he@^1.1.1, he@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
@@ -4463,7 +4430,7 @@ ieee754@^1.1.13:
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
   integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
 
-ignore@^5.1.8, ignore@^5.2.0, ignore@^5.2.4:
+ignore@^5.1.8, ignore@^5.2.0:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.3.1.tgz#5073e554cd42c5b33b394375f538b8593e34d4ef"
   integrity sha512-5Fytz/IraMjqpwfd34ke28PTVMjZjJG2MPn5t7OE4eUCUNf8BAa7b5WUS9/Qvr6mwOQS7Mk6vdsMno5he+T8Xw==
@@ -7254,11 +7221,6 @@ slash@^3.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
-slash@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/slash/-/slash-4.0.0.tgz#2422372176c4c6c5addb5e2ada885af984b396a7"
-  integrity sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==
-
 slice-ansi@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/slice-ansi/-/slice-ansi-4.0.0.tgz#500e8dd0fd55b05815086255b3195adf2a45fe6b"
@@ -7345,6 +7307,11 @@ source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.0, source-map@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
+
+spark-md5@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-3.0.2.tgz#7952c4a30784347abcee73268e473b9c0167e3fc"
+  integrity sha512-wcFzz9cDfbuqe0FZzfi2or1sgyIrsDwmPwfZC4hiNidPdPINjeUwNfv5kldczoEAcjl9Y1L3SM7Uz2PUEQzxQw==
 
 spdx-correct@^3.0.0:
   version "3.2.0"
@@ -8221,30 +8188,10 @@ vue-style-loader@^4.1.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-template-compiler@2.6.11:
-  version "2.6.11"
-  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.6.11.tgz#c04704ef8f498b153130018993e56309d4698080"
-  integrity sha512-KIq15bvQDrcCjpGjrAhx4mUlyyHfdmTaoNfeoATHLAiWB+MU3cx4lOzMwrnUh9cCxy0Lt1T11hAFY6TQgroUAA==
-  dependencies:
-    de-indent "^1.0.2"
-    he "^1.1.0"
-
 vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
-
-vue@2.6.11:
-  version "2.6.11"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
-  integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==
-
-vuex@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/vuex/-/vuex-4.1.0.tgz#aa1b3ea5c7385812b074c86faeeec2217872e36c"
-  integrity sha512-hmV6UerDrPcgbSy9ORAtNXDr9M4wlNP4pEFKye4ujJF8oqgFFuxDCdOLS3eNoRTtq5O3hoBDh9Doj1bQMYHRbQ==
-  dependencies:
-    "@vue/devtools-api" "^6.0.0-beta.11"
 
 watchpack@^2.3.1:
   version "2.4.0"
@@ -8415,7 +8362,7 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
-worker-loader@3.0.8, worker-loader@^3.0.8:
+worker-loader@3.0.8:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-3.0.8.tgz#5fc5cda4a3d3163d9c274a4e3a811ce8b60dbb37"
   integrity sha512-XQyQkIFeRVC7f7uRhFdNMe/iJOdO6zxAaR3EWbDp45v3mDhrTi+++oswKNxShUNjPC/1xUp5DB29YKLhFo129g==
@@ -8709,6 +8656,23 @@ yma-config-preset@^1.0.26:
     yma-config-plugin-flexible "^1.0.36"
     yma-config-plugin-sdk "^1.0.36"
     yma-config-plugin-typescript "^1.0.36"
+
+yma-csskit@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/yma-csskit/-/yma-csskit-1.0.1.tgz#26a197f6063904d8913575679c841c54a7220a51"
+  integrity sha512-HbFLkj2g70EgIOLgbmMNsRNPw8CNKFDLDEhL1GRMPxYKOO9N8RVrXcLB9R5MqBAabhYkLblAKmF+1b6Ywp1Fdg==
+
+yma-ee@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/yma-ee/-/yma-ee-1.0.0.tgz#1c91dcddd1922cb5b7bb35eb966271311d1fea7a"
+  integrity sha512-EHolIJow1Qu+nMQVjSOWLEjlXgVpr1tbSgaAWYV3dCADnZbkjBW3mr1RK6qsX0MLacGITSh31Ea/bfDqpNHNiQ==
+
+yma-scrollbar@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/yma-scrollbar/-/yma-scrollbar-1.0.4.tgz#993df8e808e09319c6b18de96b9143fb016da847"
+  integrity sha512-BBNq1yReyxc/sNXUWA7SzeMoijKhuZQ9iKgofZ1c9FB5iR23yf2DjpOsBYJsIqAwgMkYOVgBdMwjRhIsla4wiw==
+  dependencies:
+    yma-csskit "1.0.1"
 
 yma-shared-util@^1.0.36:
   version "1.0.36"
