@@ -1,6 +1,6 @@
 {
     "name": "yma-udfiler",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "YMA 文件上传 & 下载",
     "main": "./src/index.js",
     "directories": {
