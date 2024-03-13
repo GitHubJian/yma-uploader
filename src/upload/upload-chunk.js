@@ -105,7 +105,7 @@ class UploadChunk {
             params.push([encodeURIComponent(k), encodeURIComponent(v)].join('='));
         });
 
-        const url = createUrl(that.uploader.options.precheckChunkUrl, []);
+        const url = createUrl(that.uploader.options.precheckChunkUrl, params);
 
         xhr.open('POST', url);
 
