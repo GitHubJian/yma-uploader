@@ -38,11 +38,9 @@ function processItem(item, path, items, cb) {
             items.push(file);
             cb();
         });
-    }
-    else if (item.isDirectory) {
+    } else if (item.isDirectory) {
         entry = item;
-    }
-    else if (item instanceof File) {
+    } else if (item instanceof File) {
         items.push(item);
     }
 
@@ -82,7 +80,7 @@ function processDirectory(directory, path, items, cb) {
                 allEntries.map(function (entry) {
                     return processItem.bind(null, entry, path, items);
                 }),
-                cb
+                cb,
             );
         });
     }
@@ -149,6 +147,10 @@ function defaults() {
         precheckChunkUrl: '/precheck', // Chunk 上传之前进行检查
 
         query: {}, // 自定义上传参数
+
+        canUpload: function () { // 可上传状态
+            return Promise.resolve(true);
+        },
     };
 }
 
@@ -168,11 +170,11 @@ class Uploader extends EE {
         super();
 
         const that = this;
-        this.support
-            = typeof File !== 'undefined'
-            && typeof Blob !== 'undefined'
-            && typeof FileList !== 'undefined'
-            && (!!Blob.prototype.webkitSlice || !!Blob.prototype.mozSlice || !!Blob.prototype.slice || false);
+        this.support =
+            typeof File !== 'undefined' &&
+            typeof Blob !== 'undefined' &&
+            typeof FileList !== 'undefined' &&
+            (!!Blob.prototype.webkitSlice || !!Blob.prototype.mozSlice || !!Blob.prototype.slice || false);
 
         if (!this.support) {
             throw new Error('当前浏览器不支持 Upload 插件');
@@ -181,8 +183,8 @@ class Uploader extends EE {
         this.options = Object.assign({}, defaults(), options);
 
         if (
-            !isNumber(this.options.minFileSize)
-            || (isNumber(this.options.minFileSize) && this.options.minFileSize < 1)
+            !isNumber(this.options.minFileSize) ||
+            (isNumber(this.options.minFileSize) && this.options.minFileSize < 1)
         ) {
             throw 'Uploader options.minFileSize 必须是一个大于 0 的数值';
         }
@@ -381,8 +383,7 @@ class Uploader extends EE {
 
         if (that._pause) {
             that._status = UPLOAD_STATUS.ready;
-        }
-        else {
+        } else {
             that._status = UPLOAD_STATUS.pause;
         }
 
@@ -446,8 +447,7 @@ class Uploader extends EE {
             // 如果是单文件上传，文件已经被添加，只需进行文件替换即可
             if (that.options.maxFiles === 1 && that.uploadFiles.length === 1 && fileList.length === 1) {
                 that.removeFile(that.uploadFiles[0]);
-            }
-            else {
+            } else {
                 that.options.maxFilesErrorCallback(fileList, errorCount++);
 
                 that.emit('max-files-error', fileList, errorCount++);
@@ -481,16 +481,16 @@ class Uploader extends EE {
                 for (let key in that.options.fileTypes) {
                     that.options.fileTypes[key] = that.options.fileTypes[key].replace(/\s/g, '').toLowerCase();
 
-                    let extension
-                        = (that.options.fileTypes[key].match(/^[^.][^/]+$/) ? '.' : '') + that.options.fileTypes[key];
+                    let extension =
+                        (that.options.fileTypes[key].match(/^[^.][^/]+$/) ? '.' : '') + that.options.fileTypes[key];
 
                     if (
-                        fileName.substr(-1 * extension.length).toLowerCase() === extension
-                        || (extension.indexOf('/') !== -1
-                            && ((extension.indexOf('*') !== -1
-                                && fileType.substr(0, extension.indexOf('*'))
-                                    === extension.substr(0, extension.indexOf('*')))
-                                || fileType === extension))
+                        fileName.substr(-1 * extension.length).toLowerCase() === extension ||
+                        (extension.indexOf('/') !== -1 &&
+                            ((extension.indexOf('*') !== -1 &&
+                                fileType.substr(0, extension.indexOf('*')) ===
+                                    extension.substr(0, extension.indexOf('*'))) ||
+                                fileType === extension))
                     ) {
                         fileTypeFound = true;
                         break;
@@ -545,8 +545,7 @@ class Uploader extends EE {
 
                         decreaseReamining();
                     });
-                }
-                else {
+                } else {
                     filesSkipped.push(file);
 
                     decreaseReamining();
@@ -687,21 +686,24 @@ class Uploader extends EE {
     _handleDragEnter(e) {
         e.preventDefault();
 
-        const dt = e.dataTransfer;
-        if (dt.types.indexOf('Files') >= 0) {
-            // only for file drop
-            e.stopPropagation();
+        this.options.canUpload().then(can => {
+            if (can) {
+                const dt = e.dataTransfer;
+                if (dt.types.indexOf('Files') >= 0) {
+                    // only for file drop
+                    e.stopPropagation();
 
-            dt.dropEffect = 'copy';
-            dt.effectAllowed = 'copy';
+                    dt.dropEffect = 'copy';
+                    dt.effectAllowed = 'copy';
 
-            addClass(e.currentTarget, DRAG_CLASSNAME);
-        }
-        else {
-            // not work on IE/Edge....
-            dt.dropEffect = 'none';
-            dt.effectAllowed = 'none';
-        }
+                    addClass(e.currentTarget, DRAG_CLASSNAME);
+                } else {
+                    // not work on IE/Edge....
+                    dt.dropEffect = 'none';
+                    dt.effectAllowed = 'none';
+                }
+            }
+        });
     }
 
     _handleDragOver(e) {
@@ -719,8 +721,7 @@ class Uploader extends EE {
 
         if (e.dataTransfer && e.dataTransfer.items) {
             this._loadFiles(e.dataTransfer.items, e);
-        }
-        else if (e.dataTransfer && e.dataTransfer.files) {
+        } else if (e.dataTransfer && e.dataTransfer.files) {
             this._loadFiles(e.dataTransfer.files, e);
         }
     }
@@ -748,7 +749,7 @@ class Uploader extends EE {
                 if (files.length) {
                     that._addFiles(files, event);
                 }
-            }
+            },
         );
     }
 
@@ -758,15 +759,18 @@ class Uploader extends EE {
         let inputEl;
         if (inputOrDiv.tagName === 'INPUT' && inputOrDiv.type === 'file') {
             inputEl = inputOrDiv;
-        }
-        else {
+        } else {
             inputEl = document.createElement('input');
             attr(inputEl, 'type', 'file');
             inputEl.style.display = 'none';
 
-            on(inputOrDiv, 'click', function () {
-                inputEl.focus();
-                inputEl.click();
+            on(inputOrDiv, 'click', function (e) {
+                that.options.canUpload().then(can => {
+                    if (can) {
+                        inputEl.focus();
+                        inputEl.click();
+                    }
+                });
             });
 
             inputOrDiv.appendChild(inputEl);
@@ -783,17 +787,21 @@ class Uploader extends EE {
 
             isUndefined(fileTypes) || fileTypes.length >= 1
                 ? fileTypes
-                    .map(function (e) {
-                        e = e.replace(/\s/g, '').toLowerCase();
-                        if (e.match(/^[^.][^/]+$/)) {
-                            e = '.' + e;
-                        }
+                      .map(function (e) {
+                          e = e.replace(/\s/g, '').toLowerCase();
+                          if (e.match(/^[^.][^/]+$/)) {
+                              e = '.' + e;
+                          }
 
-                        return e;
-                    })
-                    .join(',')
-                : undefined
+                          return e;
+                      })
+                      .join(',')
+                : undefined,
         );
+
+        on(inputEl, 'click', function (e) {
+            e.stopPropagation();
+        });
 
         on(inputEl, 'change', function (e) {
             that.addFiles(e.target.files, e);

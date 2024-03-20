@@ -48,8 +48,7 @@ class UploadChunk {
                 let res;
                 try {
                     res = JSON.parse(responseJson);
-                }
-                catch (err) {
+                } catch (err) {
                     throw err;
                 }
 
@@ -59,13 +58,11 @@ class UploadChunk {
                     if (data.status === CHUNK_EXISTS_STATE.notexists) {
                         // 不存在
                         that.precheckFinished(PRECHECK_STATE.unuploaded);
-                    }
-                    else if (data.status === CHUNK_EXISTS_STATE.exists) {
+                    } else if (data.status === CHUNK_EXISTS_STATE.exists) {
                         // 已存在
                         that.precheckFinished(PRECHECK_STATE.uploaded);
                     }
-                }
-                else {
+                } else {
                     that.callback('error', res);
                 }
             }
@@ -153,8 +150,7 @@ class UploadChunk {
 
                     if (multiple) {
                         that.uploader._uploadNextFile();
-                    }
-                    else {
+                    } else {
                         that.filer._uploadNextChunk();
                     }
 
@@ -190,23 +186,19 @@ class UploadChunk {
 
                 if (multiple) {
                     that.uploader._uploadNextFile();
-                }
-                else {
+                } else {
                     that.filer._uploadNextChunk();
                 }
-            }
-            else if (status === 'error') {
+            } else if (status === 'error') {
                 // 上传失败
                 that.callback('error', that.message());
 
                 if (multiple) {
                     that.uploader._uploadNextFile();
-                }
-                else {
+                } else {
                     that.filer._uploadNextChunk();
                 }
-            }
-            else {
+            } else {
                 that.callback('retry', that.message());
 
                 that.abort();
@@ -217,8 +209,7 @@ class UploadChunk {
                 if (!isUndefined(retryInterval)) {
                     that.pendingRetry = true;
                     nextTick(that.send, retryInterval);
-                }
-                else {
+                } else {
                     that.send();
                 }
             }
@@ -257,14 +248,14 @@ class UploadChunk {
         const slice = that.filer.file.slice
             ? 'slice'
             : that.filer.file.mozSlice
-                ? 'mozSlice'
-                : that.filer.file.webkitSlice
-                    ? 'webkitSlice'
-                    : 'slice';
+            ? 'mozSlice'
+            : that.filer.file.webkitSlice
+            ? 'webkitSlice'
+            : 'slice';
         const bytes = that.filer.file[slice](
             that.startByte,
             that.endByte,
-            that.uploader.options.setChunkTypeFromFile ? that.filer.file.type : ''
+            that.uploader.options.setChunkTypeFromFile ? that.filer.file.type : '',
         );
 
         let data = null;
@@ -274,8 +265,7 @@ class UploadChunk {
             each(query, function (k, v) {
                 params.push([encodeURIComponent(k), encodeURIComponent(v)].join('='));
             });
-        }
-        else {
+        } else {
             data = new FormData();
             each(query, function (k, v) {
                 data.append(k, v);
@@ -284,8 +274,7 @@ class UploadChunk {
 
             if (that.uploader.options.chunkFormat === 'blob') {
                 data.append(that.uploader.options.fileParameterName, bytes, that.filer.fileName);
-            }
-            else if (that.uploader.options.chunkFormat === 'base64') {
+            } else if (that.uploader.options.chunkFormat === 'base64') {
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     data.append(that.uploader.options.fileParameterName, reader.result);
@@ -336,22 +325,18 @@ class UploadChunk {
 
         if (that.pendingRetry) {
             return 'uploading';
-        }
-        else if (that.markComplete) {
+        } else if (that.markComplete) {
             return 'uploaded';
-        }
-        else if (!that.xhr) {
+        } else if (!that.xhr) {
             return 'pending';
-        }
-        else if (that.xhr?.readyState < 4) {
+        } else if (that.xhr?.readyState < 4) {
             return 'uploading';
         }
         if (that.xhr?.status === 200 || that.xhr?.status === 201) {
             let res;
             try {
                 res = JSON.parse(that.xhr.responseText);
-            }
-            catch (e) {
+            } catch (e) {
                 console.error(e);
 
                 return 'error';
@@ -361,11 +346,9 @@ class UploadChunk {
                 return 'uploaded';
             }
             return 'error';
-
-        }
-        else if (
-            contains(that.uploader.options.permanentErrors, that.xhr?.status)
-            || that.retries >= that.uploader.options.maxChunkRetries
+        } else if (
+            contains(that.uploader.options.permanentErrors, that.xhr?.status) ||
+            that.retries >= that.uploader.options.maxChunkRetries
         ) {
             return 'error';
         }

@@ -34,11 +34,9 @@ export function createId(file) {
 export function formatSize(size) {
     if (size < 1024) {
         return size + ' bytes';
-    }
-    else if (size < 1024 * 1024) {
+    } else if (size < 1024 * 1024) {
         return (size / 1024.0).toFixed(0) + ' KB';
-    }
-    else if (size < 1024 * 1024 * 1024) {
+    } else if (size < 1024 * 1024 * 1024) {
         return (size / 1024.0 / 1024.0).toFixed(1) + ' MB';
     }
     return (size / 1024.0 / 1024.0 / 1024.0).toFixed(1) + ' GB';
@@ -51,8 +49,7 @@ export function each(objOrArray, callback) {
                 return;
             }
         }
-    }
-    else {
+    } else {
         for (let key in objOrArray) {
             if (callback(key, objOrArray[key]) === false) {
                 return;
@@ -72,8 +69,7 @@ export function on(el, event, handler) {
         if (el && event && handler) {
             el.addEventListener(event, handler, false);
         }
-    }
-    else {
+    } else {
         if (el && event && handler) {
             el.attachEvent('on' + event, handler);
         }
@@ -87,8 +83,7 @@ export function getAttr(el, name) {
 export function attr(el, name, value) {
     if (!value) {
         el.removeAttribute(name);
-    }
-    else {
+    } else {
         el.setAttribute(name, value);
     }
 }
@@ -98,8 +93,7 @@ export function off(el, event, handler) {
         if (el && event) {
             el.removeEventListener(event, handler, false);
         }
-    }
-    else {
+    } else {
         if (el && event) {
             el.detachEvent('on' + event, handler);
         }
@@ -151,8 +145,7 @@ export function removeClass(obj, cls) {
 export function toggleClass(obj, cls) {
     if (hasClass(obj, cls)) {
         removeClass(obj, cls);
-    }
-    else {
+    } else {
         addClass(obj, cls);
     }
 }

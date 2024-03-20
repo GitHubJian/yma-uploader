@@ -1,19 +1,19 @@
 import {isString, isUndefined, nextTick, getAttr, on, each} from '../util';
 
-const $global
-    = typeof window === 'object' && window.window === window
+const $global =
+    typeof window === 'object' && window.window === window
         ? window
         : typeof self === 'object' && self.self === self
-            ? self
-            : typeof global === 'object' && global.global === global
-                ? global
-                : this;
+        ? self
+        : typeof global === 'object' && global.global === global
+        ? global
+        : this;
 
-const isMacOSWebView
-    = $global.navigator
-    && /Macintosh/.test($global.navigator.userAgent)
-    && /AppleWebKit/.test($global.navigator.userAgent)
-    && !/Safari/.test($global.navigator.userAgent);
+const isMacOSWebView =
+    $global.navigator &&
+    /Macintosh/.test($global.navigator.userAgent) &&
+    /AppleWebKit/.test($global.navigator.userAgent) &&
+    !/Safari/.test($global.navigator.userAgent);
 
 class Downloader {
     constructor() {
@@ -25,8 +25,7 @@ class Downloader {
             options = {
                 autoBom: false,
             };
-        }
-        else if (typeof options !== 'object') {
+        } else if (typeof options !== 'object') {
             console.warn('Deprecated: Expected third argument to be a object');
             options = {
                 autoBom: !options,
@@ -34,8 +33,8 @@ class Downloader {
         }
 
         if (
-            options.autoBom
-            && /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)
+            options.autoBom &&
+            /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)
         ) {
             return new Blob([String.fromCharCode(0xfeff), blob], {
                 type: blob.type,
@@ -80,8 +79,7 @@ class Downloader {
 
         try {
             xhr.send();
-        }
-        catch (e) {}
+        } catch (e) {}
 
         return xhr.status >= 200 && xhr.status <= 299;
     }
@@ -89,8 +87,7 @@ class Downloader {
     _click(el) {
         try {
             el.dispatchEvent(new MouseEvent('click'));
-        }
-        catch (error) {
+        } catch (error) {
             const evt = document.createEvent('MouseEvents');
             evt.initMouseEvent('click', true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null);
 

@@ -431,6 +431,7 @@ export default {
 
             that.uploader.remove();
         },
+        handleMergeAllClick() {},
         handleUploadClick(file) {
             if (file.uploadFile.isCompleted()) {
                 return;

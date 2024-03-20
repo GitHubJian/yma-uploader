@@ -287,15 +287,13 @@ class UploadFile {
 
         if (isUndefined(pause)) {
             that._pause = !that._pause;
-        }
-        else {
+        } else {
             that._pause = pause;
         }
 
         if (that._pause) {
             that._status = UPLOAD_FILE_STATUS.pause;
-        }
-        else {
+        } else {
             that._status = UPLOAD_FILE_STATUS.uploading;
         }
 
@@ -311,8 +309,7 @@ class UploadFile {
             // that._status = UPLOAD_FILE_STATUS.completed;
             // that.uploader.emit('file-completed', that);
             // that.uploader.emit('completed', that.uploader, that);
-        }
-        else {
+        } else {
             this._upload();
         }
     }
@@ -341,8 +338,7 @@ class UploadFile {
                     return false;
                 }
             });
-        }
-        else {
+        } else {
             that._fileBeforeUpload = false;
         }
 
@@ -372,7 +368,6 @@ class UploadFile {
             return false;
         }
         return that._upload(true);
-
     }
 
     getStatus() {
@@ -400,8 +395,7 @@ class UploadFile {
                 let res;
                 try {
                     res = JSON.parse(responseJson);
-                }
-                catch (err) {
+                } catch (err) {
                     throw err;
                 }
 
@@ -416,12 +410,10 @@ class UploadFile {
                         that.pendingRetry = true;
 
                         nextTick(that.merge, retryInterval);
-                    }
-                    else {
+                    } else {
                         that.merge();
                     }
-                }
-                else if (res.code === MERGED_STATUS.merged) {
+                } else if (res.code === MERGED_STATUS.merged) {
                     // 已 merge 完成
                     that._status = UPLOAD_FILE_STATUS.completed;
 
