@@ -267,6 +267,10 @@ export default {
             type: Function,
             default: () => {},
         },
+        updateStatusHandler: {
+            type: Function,
+            default: (status) => {},
+        }
     },
     data() {
         const that = this;
@@ -282,14 +286,20 @@ export default {
 
         uploader.on('added', function (ctx) {
             that.status = ctx._status;
+
+            that.updateStatusHandler(that.status);
         });
 
         uploader.on('before-upload', function (ctx) {
             that.status = ctx._status;
+
+            that.updateStatusHandler(that.status);
         });
 
         uploader.on('paused', function (ctx) {
             that.status = ctx._status;
+
+            that.updateStatusHandler(that.status);
         });
 
         // 监控全局上传进度
@@ -299,10 +309,14 @@ export default {
 
         uploader.on('uploaded', function (ctx) {
             that.status = ctx._status;
+
+            that.updateStatusHandler(that.status);
         });
 
         uploader.on('completed', function (ctx) {
             that.status = ctx._status;
+
+            that.updateStatusHandler(that.status);
         });
 
         uploader.on('removed', function (uploader) {
